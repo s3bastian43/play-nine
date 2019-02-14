@@ -159,7 +159,7 @@ class Game extends React.Component {
         answerIsCorrect: null,
         redraws: 5,
         doneStatus: null,
-        seconds: 60,
+        seconds: 5,
         secondsStatus: ''
     });
     state = Game.initialState();
@@ -233,16 +233,19 @@ class Game extends React.Component {
             if (prevState.usedNumbers.length === 9) {
                 return {
                     doneStatus: "Done",
+                    redraws: 0
                 };
             }
             if (prevState.redraws === 0 && !this.possibleSolutions(prevState)) {
                 return {
                     doneStatus: "Game Over",
+                    redraws: 0
                 };
             }
             if (prevState.seconds === 0) {
                 return {
                     doneStatus: "Game Over",
+                    redraws: 0
                 };
             }
         });
@@ -294,7 +297,9 @@ class Game extends React.Component {
                         <h3>Play Nine</h3>
                     </div>
                     <div className="col-12 col-md-4">
-                        <Timer seconds={seconds} secondsStatus={secondsStatus}/>
+                        {(seconds > 0) ?
+                            (<Timer seconds={seconds} secondsStatus={secondsStatus}/>) : (<h5>Time's up!</h5>)
+                        }
                     </div>
                 </div>
                 <hr/>
